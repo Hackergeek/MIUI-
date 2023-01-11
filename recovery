@@ -1,0 +1,79 @@
+#!/bin/bash
+
+read -p "您现在是否可以进入系统，输入1 = 可以 输入0 = 不可以,请输入：" YN
+if [ $YN = "1" ];then
+    read -p "是否恢复优化，输入1 = 恢复 输入0 = 不恢复，请输入：" YN
+    if [ $YN = "1" ];then
+		adb shell pm enable com.miui.systemAdSolution #禁用智能服务 
+		adb shell pm enable com.xiaomi.ab #禁用小米电商 
+		adb shell pm enable com.miui.bugreport #禁用用户反馈 
+		adb shell pm enable com.miui.analytics #禁用系统毒瘤 
+		adb shell rm -f -r /sdcard/Android/data/com.miui.systemAdSolution/files #删除开屏广告 
+		echo -e "恢复成功，重启生效\n"
+    fi
+    read -p "是否恢复系统更新,输入1 = 恢复 输入0 = 不恢复,请输入：" YN
+    if [ $YN = "1" ];then
+        adb shell rm -f -r /sdcard/Download/downloaded_rom
+        adb shell rm -f -r /sdcard/downloaded_rom
+        echo -e "恢复成功，重启生效\n"
+    fi
+    read -p "是否恢复快应用，输入1 = 恢复 输入0 = 不恢复，请输入：" YN
+    if [ $YN = "1" ];then
+		adb shell pm enable com.miui.hybrid #快应用服务框架
+		echo -e "恢复成功\n" 
+    fi
+	read -p "是否恢复系统精简，输入1 = 恢复 输入0 = 不恢复，请输入：" YN
+    if [ $YN = "1" ];then
+        adb shell pm enable com.miui.BookmarkProvider #谷歌浏览器收藏插件，接口已废除
+		adb shell pm enable com.miui.AiAsstVision #小爱相关，删除不影响小爱
+		adb shell pm enable com.miui.BasicDreams #屏保，接口已废除
+		adb shell pm enable com.miui.BookmarkProvider #谷歌浏览器收藏插件，接口已废除
+		adb shell pm enable com.miui.CatcherPatch
+		adb shell pm enable com.miui.CatchLog #收集日志 
+		adb shell pm enable com.miui.KeyChain #密钥链，中国用不到
+		adb shell pm enable com.xiaomi.powerchecker #耗电检测 
+		adb shell pm enable com.xiaomi.payment #米币支付  
+		adb shell pm enable com.miui.yellowpage #生活黄页 
+		adb shell pm enable com.xiaomi.youpin #小米有品
+		adb shell pm enable com.mfashiongallery.emag #小米画报
+		echo -e "恢复成功，重启生效\n"
+    fi
+    read -p "是否恢复小爱同学，输入1 = 恢复 输入0 = 不恢复，请输入：" YN
+	if [ $YN = "1" ];then
+		adb shell pm enable com.miui.voiceassist #小爱同学
+		adb shell pm enable com.miui.voicetrigger #语音唤醒 
+	    echo -e "恢复完毕，重启生效\n"
+	fi
+fi
+if [ $YN = "0" ];then
+    echo -e "请按住您的手机音量下键+开机键 直到出现FastBoot界面\n
+    read -s -n1 -p "出现后请按回车键"
+    adb shell pm enable com.miui.KeyChain #密钥链，中国用不到
+    fastboot reboot
+    echo -e "请问是否成功开机 请等待约三分钟\n"
+    read -s -n1 -p "如未开机请重复上方操作 并按下回车"
+    adb shell pm enable com.miui.BookmarkProvider #谷歌浏览器收藏插件，接口已废除
+    adb shell pm enable com.miui.AiAsstVision #小爱相关，删除不影响小爱
+    adb shell pm enable com.miui.BasicDreams #屏保，接口已废除
+    adb shell pm enable com.miui.BookmarkProvider #谷歌浏览器收藏插件，接口已废除
+    adb shell pm enable com.miui.CatcherPatch
+    adb shell pm enable com.miui.CatchLog #收集日志 
+    adb shell pm enable com.miui.KeyChain #密钥链，中国用不到
+    adb shell pm enable com.xiaomi.powerchecker #耗电检测 
+    adb shell pm enable com.xiaomi.payment #米币支付  
+    adb shell pm enable com.miui.yellowpage #生活黄页 
+    adb shell pm enable com.xiaomi.youpin #小米有品
+    adb shell pm enable com.mfashiongallery.emag #小米画报
+    echo -e "恢复成功，重启生效\n"
+    fastboot reboot
+    echo -e "请问是否成功开机 请等待约三分钟\n"
+    read -s -n1 -p "如未开机请重复上方操作 并按下回车"
+    adb shell pm enable com.miui.systemAdSolution #禁用智能服务 
+    adb shell pm enable com.xiaomi.ab #禁用小米电商 
+    adb shell pm enable com.miui.bugreport #禁用用户反馈 
+    adb shell pm enable com.miui.analytics #禁用系统毒瘤 
+    adb shell rm -f -r /sdcard/Android/data/com.miui.systemAdSolution/files #删除开屏广告 
+    echo -e "恢复成功，重启生效\n"
+    fastboot reboot
+    echo -e 已恢复完毕 请开机重试 为您带来了不好的体验 我深感抱歉\n"
+fi

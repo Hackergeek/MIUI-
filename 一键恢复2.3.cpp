@@ -50,7 +50,7 @@ int main()
 		cin>>YN;
 		if(YN==1)
 		{
-			system("adb shell pm disenable com.miui.hybrid");//快应用服务框架
+			system("adb shell pm enable com.miui.hybrid");//快应用服务框架
 			cout<<"恢复成功"<<endl; 
 		}
 		cout<<"是否恢复系统精简"<<endl<<"输入1 = 恢复 输入0 = 不恢复"<<endl;

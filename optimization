@@ -1,0 +1,55 @@
+#!/bin/bash
+adb devices
+echo "如List of devices attached后无内容,请检查是否给予电脑USB调试权限、更换数据线、更换电脑接口并重新打开程序"
+read -s -n1 -p "如有内容，请按回车继续"
+echo -e "\n优化内容如下:\n1.对系统毒瘤软件进行冻结\n2.增加系统流畅度 提升系统续航\n3.去除系统广告等\n请做好备份，理论与实践中没有出现任何问题，但是以防万一。"
+read -p "输入1 = 开始优化 输入0 = 不优化,请输入:" YN
+#禁用的程序都不会影响系统使用 请各位大佬放心 
+if [ $YN = "1" ];then
+    echo -e "开始优化 优化过程中如断开连接，重新插入并重新运行程序即可，无须担心，优化完成后会有提示"
+    adb shell pm disable-user com.miui.systemAdSolution #禁用智能服务 
+    adb shell pm disable-user com.xiaomi.ab #禁用小米电商 
+    adb shell pm disable-user com.miui.bugreport #禁用用户反馈 
+    adb shell pm disable-user com.miui.analytics #禁用系统毒瘤 
+    adb shell rm -f -r /sdcard/Android/data/com.miui.systemAdSolution/files #删除开屏广告 
+    adb shell touch /sdcard/Android/data/com.miui.systemAdSolution/files #防止开屏广告再生 
+    echo -e "\n----------------------------\n优化完毕 重启手机后即可生效\n----------------------------\n"
+fi
+read -p "是否禁用系统更新,输入1 = 禁用 输入0 = 不禁用,请输入:" YN
+if [ $YN = "1" ];then
+    adb shell rm -f -r /sdcard/Download/downloaded_rom #删除系统更新包 
+    adb shell touch /sdcard/Download/downloaded_rom #防止系统静默下载更新包 
+    adb shell rm -f -r /sdcard/downloaded_rom #同上 
+    adb shell touch /sdcard/downloaded_rom #同上 
+    echo -e "禁用成功，如有报错提示为正常现象\n"
+fi
+read -p "是否禁用快应用？(禁用后广告会大幅减少),输入1 = 禁用 输入0 = 不禁用，请输入：" YN
+if [ $YN = "1" ];then
+    adb shell pm disable-user com.miui.hybrid #快应用服务框架
+    echo -e "禁用成功\n"
+fi
+read -p "是否对系统应用进行精简(会禁用较多系统应用 恢复包可恢复)，输入1 = 精简 输入0 = 不精简,请输入：" YN
+if [ $YN = "1" ];then
+    echo -e "精简列表部分采自BV1hi4y1L7FQ 感谢\n如有报错 为MIUI版本不同导致 无需理会 开启精简"
+    adb shell pm disable-user com.miui.BookmarkProvider #谷歌浏览器收藏插件，接口已废除
+    adb shell pm disable-user com.miui.AiAsstVision #小爱相关，删除不影响小爱
+    adb shell pm disable-user com.miui.BasicDreams #屏保，接口已废除
+    adb shell pm disable-user com.miui.BookmarkProvider #谷歌浏览器收藏插件，接口已废除
+    adb shell pm disable-user com.miui.CatcherPatch
+    adb shell pm disable-user com.miui.CatchLog #收集日志 
+    adb shell pm disable-user com.xiaomi.powerchecker #耗电检测 
+    adb shell pm disable-user com.xiaomi.payment #米币支付 
+    adb shell pm disable-user com.miui.yellowpage #生活黄页 
+    adb shell pm disable-user com.xiaomi.youpin #小米有品
+    adb shell pm disable-user com.mfashiongallery.emag #小米画报
+    echo -e "精简完毕\n" 
+fi
+read -p "是否禁用小爱同学，输入1 = 禁用 输入0 = 不禁用,请输入：" YN
+if [ $YN = "1" ];then
+    adb shell pm disable-user com.miui.voiceassist #小爱同学
+    adb shell pm disable-user com.miui.voicetrigger #语音唤醒 
+    echo -e "禁用完毕\n"
+fi
+echo "程序运行完毕，感谢您的使用"
+
+
